@@ -1,38 +1,56 @@
+```python
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 from sklearn.ensemble import RandomForestClassifier
-
-st.set_page_config(page_title="Industrial Safety Risk Predictor")
-
-
-st.title("🌍 SafeGuard AI")
-st.caption("Industrial Risk Prediction & Monitoring System")
 import time
 
-if "intro" not in st.session_state:
+st.set_page_config(
+    page_title="SafeGuard AI",
+    page_icon="🌍",
+    layout="wide"
+)
 
-    st.markdown("""
-    <div style='text-align:center;padding-top:100px'>
-        <h1>🌍 SafeGuard AI</h1>
-        <h3>Industrial Risk Prediction & Monitoring System</h3>
-    </div>
-    """, unsafe_allow_html=True)
+# =========================
+# SPLASH SCREEN
+# =========================
 
-    st.image(
-        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Rotating_earth_%28large%29.gif/512px-Rotating_earth_%28large%29.gif",
-        width=350
+if "loaded" not in st.session_state:
+
+    st.markdown(
+        """
+        <h1 style='text-align:center;'>
+        🌍 SafeGuard AI
+        </h1>
+
+        <h4 style='text-align:center;color:gray;'>
+        Industrial Risk Prediction & Monitoring System
+        </h4>
+        """,
+        unsafe_allow_html=True
     )
 
-    st.progress(100)
+    st.image("globe.gif", width=350)
 
-    time.sleep(3)
+    progress = st.progress(0)
 
-    st.session_state.intro = True
+    for i in range(100):
+        time.sleep(0.03)
+        progress.progress(i + 1)
+
+    st.session_state.loaded = True
     st.rerun()
 
-st.title("🏭 Industrial Safety Risk Predictor")
+# =========================
+# DASHBOARD
+# =========================
+
+st.title("🏭 SafeGuard AI Dashboard")
+
+st.markdown("---")
 
 # Sample Training Data
+
 data = pd.DataFrame({
     'Temperature':[25,40,60,30,55,70,35,50],
     'Humidity':[40,60,85,50,90,95,55,80],
@@ -45,16 +63,41 @@ X = data[['Temperature','Humidity','Gas','Vibration']]
 y = data['Risk']
 
 model = RandomForestClassifier()
-model.fit(X,y)
+model.fit(X, y)
 
-st.sidebar.header("Enter Parameters")
+st.sidebar.header("⚙ Enter Parameters")
 
-temp = st.sidebar.slider("Temperature (°C)",0,100,40)
-humidity = st.sidebar.slider("Humidity (%)",0,100,60)
-gas = st.sidebar.slider("Gas Level (ppm)",0,500,150)
-vibration = st.sidebar.slider("Machine Vibration",0,25,5)
+temp = st.sidebar.slider(
+    "Temperature (°C)",
+    0,
+    100,
+    40
+)
 
-prediction = model.predict([[temp,humidity,gas,vibration]])[0]
+humidity = st.sidebar.slider(
+    "Humidity (%)",
+    0,
+    100,
+    60
+)
+
+gas = st.sidebar.slider(
+    "Gas Level (ppm)",
+    0,
+    500,
+    150
+)
+
+vibration = st.sidebar.slider(
+    "Machine Vibration",
+    0,
+    25,
+    5
+)
+
+prediction = model.predict(
+    [[temp, humidity, gas, vibration]]
+)[0]
 
 risk_labels = {
     0:"🟢 LOW",
@@ -62,55 +105,88 @@ risk_labels = {
     2:"🔴 HIGH"
 }
 
-st.subheader("Prediction Result")
-st.success(f"Risk Level: {risk_labels[prediction]}")
+st.subheader("📊 Prediction Result")
 
 if prediction == 0:
-    st.write("Conditions are safe.")
-elif prediction == 1:
-    st.warning("Monitor equipment and inspect safety measures.")
-else:
-    st.error("Immediate action required. Check machinery and environment.")
+    st.success(
+        f"Risk Level: {risk_labels[prediction]}"
+    )
 
-st.subheader("Current Inputs")
+elif prediction == 1:
+    st.warning(
+        f"Risk Level: {risk_labels[prediction]}"
+    )
+
+else:
+    st.error(
+        f"Risk Level: {risk_labels[prediction]}"
+    )
+
+# INPUT DATA
+
+st.subheader("📈 Current Inputs")
 
 df = pd.DataFrame({
-    "Parameter":["Temperature","Humidity","Gas","Vibration"],
-    "Value":[temp,humidity,gas,vibration]
+    "Parameter":[
+        "Temperature",
+        "Humidity",
+        "Gas",
+        "Vibration"
+    ],
+    "Value":[
+        temp,
+        humidity,
+        gas,
+        vibration
+    ]
 })
 
 st.bar_chart(df.set_index("Parameter"))
-import plotly.graph_objects as go
+
+# GLOBAL MONITORING GLOBE
 
 st.subheader("🌍 Global Industrial Monitoring")
 
 fig = go.Figure(go.Scattergeo(
     lon=[77.59, -74.00, 139.69],
     lat=[12.97, 40.71, 35.68],
-    mode='markers',
-    marker=dict(
-        size=[20, 15, 18],
-        color=['red', 'orange', 'green']
-    ),
+    mode='markers+text',
     text=[
         'Bangalore Plant',
         'New York Plant',
         'Tokyo Plant'
-    ]
+    ],
+    marker=dict(
+        size=[18,18,18]
+    )
 ))
 
 fig.update_geos(
     projection_type="orthographic",
     showland=True,
-    landcolor="rgb(20,20,20)",
-    oceancolor="rgb(10,30,60)",
-    showocean=True
+    landcolor="rgb(40,40,40)",
+    showocean=True,
+    oceancolor="rgb(0,60,120)"
 )
 
 fig.update_layout(
     height=600,
-    margin=dict(l=0,r=0,t=0,b=0)
+    margin=dict(
+        l=0,
+        r=0,
+        t=0,
+        b=0
+    )
 )
 
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
 
+st.markdown("---")
+
+st.caption(
+    "SafeGuard AI © 2026 | Industrial Safety Monitoring Platform"
+)
+```
