@@ -2,7 +2,30 @@ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
-st.set_page_config(page_title="Industrial Safety Risk Predictor")
+st.title("🌍 SafeGuard AI")
+st.caption("Industrial Risk Prediction & Monitoring System")
+import time
+
+if "intro" not in st.session_state:
+
+    st.markdown("""
+    <div style='text-align:center;padding-top:100px'>
+        <h1>🌍 SafeGuard AI</h1>
+        <h3>Industrial Risk Prediction & Monitoring System</h3>
+    </div>
+    """, unsafe_allow_html=True)
+
+    st.image(
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Rotating_earth_%28large%29.gif/512px-Rotating_earth_%28large%29.gif",
+        width=350
+    )
+
+    st.progress(100)
+
+    time.sleep(3)
+
+    st.session_state.intro = True
+    st.rerun()
 
 st.title("🏭 Industrial Safety Risk Predictor")
 
@@ -87,35 +110,4 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
-import plotly.graph_objects as go
 
-st.subheader("🌍 Global Industrial Monitoring")
-
-fig = go.Figure(go.Scattergeo(
-    lon=[77.59, -74.00, 139.69],
-    lat=[12.97, 40.71, 35.68],
-    mode='markers+text',
-    text=[
-        'Bangalore Plant',
-        'New York Plant',
-        'Tokyo Plant'
-    ],
-    marker=dict(
-        size=[18,18,18]
-    )
-))
-
-fig.update_geos(
-    projection_type="orthographic",
-    showland=True,
-    landcolor="rgb(40,40,40)",
-    showocean=True,
-    oceancolor="rgb(0,60,120)"
-)
-
-fig.update_layout(
-    height=600,
-    margin=dict(l=0,r=0,t=0,b=0)
-)
-
-st.plotly_chart(fig, use_container_width=True)
