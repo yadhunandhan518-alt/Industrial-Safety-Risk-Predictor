@@ -2,6 +2,9 @@ import streamlit as st
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 
+st.set_page_config(page_title="Industrial Safety Risk Predictor")
+
+
 st.title("🌍 SafeGuard AI")
 st.caption("Industrial Risk Prediction & Monitoring System")
 import time
