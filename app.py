@@ -188,4 +188,3 @@ st.markdown("---")
 st.caption(
     "SafeGuard AI © 2026 | Industrial Safety Monitoring Platform"
 )
-```
