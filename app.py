@@ -87,3 +87,35 @@ fig.update_layout(
 )
 
 st.plotly_chart(fig, use_container_width=True)
+import plotly.graph_objects as go
+
+st.subheader("🌍 Global Industrial Monitoring")
+
+fig = go.Figure(go.Scattergeo(
+    lon=[77.59, -74.00, 139.69],
+    lat=[12.97, 40.71, 35.68],
+    mode='markers+text',
+    text=[
+        'Bangalore Plant',
+        'New York Plant',
+        'Tokyo Plant'
+    ],
+    marker=dict(
+        size=[18,18,18]
+    )
+))
+
+fig.update_geos(
+    projection_type="orthographic",
+    showland=True,
+    landcolor="rgb(40,40,40)",
+    showocean=True,
+    oceancolor="rgb(0,60,120)"
+)
+
+fig.update_layout(
+    height=600,
+    margin=dict(l=0,r=0,t=0,b=0)
+)
+
+st.plotly_chart(fig, use_container_width=True)
