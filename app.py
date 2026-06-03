@@ -54,3 +54,36 @@ df = pd.DataFrame({
 })
 
 st.bar_chart(df.set_index("Parameter"))
+import plotly.graph_objects as go
+
+st.subheader("🌍 Global Industrial Monitoring")
+
+fig = go.Figure(go.Scattergeo(
+    lon=[77.59, -74.00, 139.69],
+    lat=[12.97, 40.71, 35.68],
+    mode='markers',
+    marker=dict(
+        size=[20, 15, 18],
+        color=['red', 'orange', 'green']
+    ),
+    text=[
+        'Bangalore Plant',
+        'New York Plant',
+        'Tokyo Plant'
+    ]
+))
+
+fig.update_geos(
+    projection_type="orthographic",
+    showland=True,
+    landcolor="rgb(20,20,20)",
+    oceancolor="rgb(10,30,60)",
+    showocean=True
+)
+
+fig.update_layout(
+    height=600,
+    margin=dict(l=0,r=0,t=0,b=0)
+)
+
+st.plotly_chart(fig, use_container_width=True)
