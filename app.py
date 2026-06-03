@@ -29,7 +29,7 @@ if "loaded" not in st.session_state:
         unsafe_allow_html=True
     )
 
-    st.image("globe.gif", width=350)
+    st.write("Loading SafeGuard AI...")
 
     progress = st.progress(0)
 
